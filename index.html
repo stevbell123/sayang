@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine’s Day</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: pink;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+        }
+        .container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        z-index: 2;
+        margin-top: 0; /* Adjusted margin-top */
+    }
+
+        .title {
+            font-size: 24px;
+            color: red;
+            margin-bottom: 20px;
+            z-index: 3; /* Increased z-index */
+            position: relative; /* Added position relative */
+        }
+        .envelope-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            margin-top: 50px; 
+        }
+        .envelope {
+            width: 220px;
+            height: 150px;
+            background-color: #ff4d6d;
+            position: relative;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .envelope.open {
+            transform: translateY(-30px);
+        }
+        .flap {
+            width: 100%;
+            height: 75px;
+            background-color: #ff1a4d;
+            position: absolute;
+            top: 0;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transition: transform 0.5s;
+        }
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+        .card {
+            width: 90%;
+            max-width: 580px;
+            min-height: 10px;
+            background-color: white;
+            background-image: url('steven.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: absolute;
+            bottom: -80px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateY(20px);
+            word-wrap: break-word;
+        }
+        .envelope.open .card {
+            opacity: 1;
+            transform: translateY(-30px);
+        }
+        .card p {
+            font-size: 18px;
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .envelope-btn {
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        @keyframes floating {
+            0% { transform: translateY(100vh) scale(1); opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(0) scale(1.2); opacity: 1; }
+        }
+        .love-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .love {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            opacity: 0;
+            animation: floating 4s linear infinite;
+        }
+        /* Firework CSS */
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: blue; 
+            border-radius: 50%;
+            box-shadow: 0 0 10px blue, 0 0 20px blue, 0 0 30px blue; 
+            animation: explode 1s ease-out forwards;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="love-container" id="loveContainer"></div>
+    
+    <div class="container">
+        <h1 class="title">Happy Valentine’s Day, Sayang! 💖</h1>
+        <div class="envelope-wrapper">
+            <div class="envelope" id="valentineEnvelope" onclick="openEnvelope()">
+                <div class="flap"></div>
+                <div class="card" id="valentineCard">
+                    <p id="valentineMessage"></p>
+                </div>
+            </div>
+            <div class="button-container"></div>
+                <button class="envelope-btn" onclick="openEnvelope()">✉️ Tekan Surat Dan Dengar kan lagu nya Be</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            var envelope = document.getElementById('valentineEnvelope');
+            envelope.classList.toggle('open');
+            toggleMusic();
+            if (envelope.classList.contains('open')) {
+                revealMessage();
+                startFireworks();
+            }
+        }
+        
+        var audio = new Audio('steven song.mp3');
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+        
+        function createLove() {
+            const loveContainer = document.getElementById('loveContainer');
+
+            setInterval(() => {
+                let love = document.createElement('div');
+                love.classList.add('love');
+                love.innerHTML = '❤️';
+                love.style.left = Math.random() * 100 + "vw";
+                love.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                loveContainer.appendChild(love);
+
+                setTimeout(() => {
+                    love.remove();
+                }, 4000);
+            }, 100); 
+        }
+
+        function revealMessage() {
+        const message = "Sayangku, Ini Aku Steven. Aku sangat bersyukur memilikimu dalam hidupku. Maaf coklatnya dikasih belakangan. Selamat Hari Valentine, Be! 💖";
+        const messageElement = document.getElementById('valentineMessage');
+        messageElement.innerHTML = "";
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < message.length) {
+                messageElement.innerHTML += message.charAt(i);
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 150); 
+    }
+
+        function startFireworks() {
+            setInterval(createFireworks, 1000); 
+        }
+
+        function createFireworks() {
+            const loveContainer = document.getElementById('loveContainer');
+
+            for (let i = 0; i < 20; i++) { 
+                setTimeout(() => {
+                    let firework = document.createElement('div');
+                    firework.classList.add('firework');
+                    firework.style.left = Math.random() * 100 + "vw";
+                    firework.style.top = Math.random() * 100 + "vh";
+                    loveContainer.appendChild(firework);
+
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 100); 
+            }
+        }
+
+        createLove();
+    </script>
+</body>
+</html>
